@@ -23,7 +23,7 @@ Topline findings:
 - **The #1 job people use AI for is writing, not planning.** The dominant requests are **vows, speeches/toasts, invitations, and thank-you messages**, not budgets, checklists, or logistics. This could be a hint to how brands can shift their online AI-assistant offerings and also AEO-friendly content from "AI wedding planner" to writing guides/assistants.
 - **People iterate most on the words that get read aloud or sent to others.** The longest back-and-forths are about personal wording (messages, invitations) and money (budgets): the high-stakes moments where "good enough" isn't good enough.
 
-> NotThese are **directional** findings from a deliberately high-precision sample (n=157, 2023 data). This is meant to be a discovery set of findings to be scaled. Section 4 lays out how to scale this into statistically robust evidence.
+> Note: These are **directional** findings from a deliberately high-precision sample (n=157, 2023 data). This is meant to be a discovery set of findings to be scaled. Section 4 lays out how to scale this into statistically robust evidence.
 
 ## 2. Findings & Implications
 
@@ -88,13 +88,13 @@ Average back-and-forth turns by request type: invitations/messaging **4.9**, pla
 > - *17 turns, polishing wording:* "rewrite for a wedding blog from the third pov in one paragraph in normal words: The ceremony was very beautiful…" (each turn tweaks tone/phrasing)
 > - *A high-stakes message:* "How to compose [a] message to [a] family member that isn't invited to wedding day and is causing drama…"
 
-**What this means (plainly):** the conversations people *keep going back and forth on* are the ones where the output (a) will be **read aloud or sent to other people** (invitation wording, thank-you notes, messages), or (b) involves **money**, like a budget. People do multiple rounds because it has to be *just right* and the stakes feel personal. By contrast, one-shot tasks like a quick image prompt or a blog draft are usually accepted on the first try.
+**What this means:** the conversations people *keep going back and forth on* are the ones where the output (a) will be **read aloud or sent to other people** (invitation wording, thank-you notes, messages), or (b) involves **money**, like a budget. People do multiple rounds because it has to be *just right* and the stakes feel personal. By contrast, one-shot tasks like a quick image prompt or a blog draft are usually accepted on the first try.
 
 **Implication:** AI features for these high-stakes moments should be built for **refinement loops**: easy edits to tone, names, and details across several rounds, not one-shot output. *(Confidence: Medium.)*
 
 ## 3. Recommendations
 
-### Content, SEO & AI discoverability (any wedding brand with a website)
+### Content, SEO & AI discoverability
 - **Listen semantically, not lexically.** Old-school keyword-based social/market listening for "wedding" is ~50% fan-fiction and shopping noise (Finding 1); meaning-based filtering is required to trust the signal. The method in this report is itself a reusable capability. To win in the world of AEO, semantic filtering will be important *(Confidence: High.)*
 - **Publish AI-retrievable content on the exact topics people ask AI to help write.** Because vow-writing, speech-writing, and invitation wording dominate real wedding AI usage (Finding 2), brands that publish strong, structured, citable guides on *those specific topics* may improve their odds of being **surfaced or cited inside AI assistant answers**. *(Confidence: Directional. Finding 2 establishes the demand; the citation payoff is a hypothesis to test.)*
 - **Note on scope:** this report measures *user demand*, not *how AI sources or cites content*. Whether and how publishing content earns AI citations is a separate question and a natural follow-up analysis.
@@ -108,7 +108,7 @@ Average back-and-forth turns by request type: invitations/messaging **4.9**, pla
 
 We treat each boundary of this study as a defined next step. The current work answers *what kinds of things people do*; the items below are what it would take to answer *how much, for whom, and how it's changing*.
 
-| What we can claim today | Boundary / limitation | How to harden & scale it |
+| This Analysis | Boundary / limitation | How to harden & scale it |
 |---|---|---|
 | Directional intent mix from a clean n=157 sample | Too small for segment-level statistics or significance testing | **LLM-assisted labeling** to scale the validated set to ~2-5k at high precision, enabling robust frequencies, segmentation, and trend tests |
 | A precise but conservative wedding filter (~70-75% precision) | Prototype method trades some recall for precision; not a benchmarked classifier | Build a small **human-labeled gold set**, then fine-tune a classifier to push precision >90% for production "wedding-intent" detection |
