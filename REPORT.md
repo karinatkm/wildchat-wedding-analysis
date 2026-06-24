@@ -13,9 +13,9 @@
 
 ## 1. Executive Summary
 
-To understand how people actually use an AI assistant for weddings, the **full WildChat dataset** (~529k real human-ChatGPT conversations, ~284k English) is distilled a **validated set of 157 genuine wedding conversations** for close study. The limitation of this small sample will be addressed in Section 4.
+To understand how people actually use an AI assistant for weddings, this analysis distills the **full WildChat dataset** (~529k real human-ChatGPT conversations, ~284k English) into a **validated set of 157 genuine wedding conversations** for close study. The limitation of this small sample will be addressed in Section 4.
 
-**Scope of this analysis.** We focus on *how users use ChatGPT for wedding-related themes*: what they ask for and how they interact. We do **not** analyze how ChatGPT sources or cites content when it responds. That is a distinct question, and a natural second analysis for the future.
+**Scope of this analysis.** This analysis focuses on *how users use ChatGPT for wedding-related themes*: what they ask for and how they interact. It does **not** analyze how ChatGPT sources or cites content when it responds. That is a distinct question, and a natural second analysis for the future.
 
 Topline findings:
 
@@ -29,7 +29,7 @@ Topline findings:
 
 ### Finding 1: Wedding vocabulary is dominated by *non*-wedding usage
 
-When we sorted every wedding-keyword conversation into the category it actually belongs to, real wedding planning was a small minority:
+When every wedding-keyword conversation was sorted into the category it actually belongs to, real wedding planning was a small minority:
 
 | What the conversation is *really* about | Share of wedding-keyword hits |
 |---|---|
@@ -118,7 +118,7 @@ Average back-and-forth turns by request type:
 
 ## 4. Scaling the Analysis
 
-We treat each boundary of this study as a defined next step. The current work answers *what kinds of things people do*; the items below are what it would take to answer *how much, for whom, and how it's changing*.
+Each boundary of this study is treated as a defined next step. The current work answers *what kinds of things people do*; the items below are what it would take to answer *how much, for whom, and how it's changing*.
 
 | This Analysis | Boundary / limitation | How to harden & scale it |
 |---|---|---|
@@ -126,17 +126,17 @@ We treat each boundary of this study as a defined next step. The current work an
 | A precise but conservative wedding filter (~70-75% precision) | Prototype method trades some recall for precision; not a benchmarked classifier | Build a small **human-labeled gold set**, then fine-tune a classifier to push precision >90% for production "wedding-intent" detection |
 | A 2023 baseline of behavior on older models | Behavior likely shifts as models improve | **Refresh with newer conversation data** to measure how wedding AI usage is evolving over time |
 | English-language usage only | Misses global/regional patterns | **Multilingual embeddings** to size non-English and regional differences |
-| Demand signal (what users *ask*) | We see requests, not whether the AI *helped* | Analyze **assistant responses & outcomes** to find where AI fails users, the sharpest unmet-need finder |
+| Demand signal (what users *ask*) | Only requests are visible, not whether the AI *helped* | Analyze **assistant responses & outcomes** to find where AI fails users, the sharpest unmet-need finder |
 
 Each of the above converts a caveat into a concrete, fundable investment that expands what the analysis can prove.
 
 ## 5. Technical Methodology in Plain Terms
 
-*How we turned ~529,000 raw conversations into a trustworthy set of findings, why each step is the right tool, and where the same techniques are used in academia and industry. No technical background required.*
+*How ~529,000 raw conversations were turned into a trustworthy set of findings, why each step is the right tool, and where the same techniques are used in academia and industry. No technical background required.*
 
 ### The core challenge: finding needles that look like the haystack
 
-Searching a giant pile of conversations for "wedding" is easy. The hard part is that **most text containing wedding words has nothing to do with real weddings**: it's fan-fiction where characters marry, product listings for "bridal" jewelry, honeymoon travel articles. So our central problem is *precision*: not "can we find wedding words?" but "can we find genuine wedding intent and throw out the lookalikes?"
+Searching a giant pile of conversations for "wedding" is easy. The hard part is that **most text containing wedding words has nothing to do with real weddings**: it's fan-fiction where characters marry, product listings for "bridal" jewelry, honeymoon travel articles. So the central problem is *precision*: not "can wedding words be found?" but "can genuine wedding intent be found and the lookalikes thrown out?"
 
 This is solved with a **funnel**: start wide and cheap, then narrow with progressively smarter (and more expensive) filters. 
 
@@ -144,7 +144,7 @@ This is solved with a **funnel**: start wide and cheap, then narrow with progres
 
 **Method:** flagged any conversation containing wedding vocabulary, splitting terms into *strong* (wedding, bride, vows, officiant; rarely used outside weddings) and *weak* (marriage, ceremony, engagement; often used elsewhere, like "prior engagement" or "awards ceremony").
 
-**Why:** keyword matching is fast and cheap, and at this stage we want to **catch everything** real, accepting that we'll also catch junk. This is the classic **precision-recall trade-off**: recall = "did we find all the real ones?", precision = "of what we found, how much is real?" Early on recall is optimized, because anything we discard here is lost forever.
+**Why:** keyword matching is fast and cheap, and at this stage the goal is to **catch everything** real, accepting that junk is also caught. This is the classic **precision-recall trade-off**: recall = "were all the real ones found?", precision = "of what was found, how much is real?" Early on recall is optimized, because anything discarded here is lost forever.
 
 **Where this is used:** this is "boolean/keyword retrieval," the foundation of search engines with the precision/recall framing is a standard from information-retrieval theory.
 
@@ -152,15 +152,15 @@ This is solved with a **funnel**: start wide and cheap, then narrow with progres
 
 **Method:** converted each conversation into a list of ~400 numbers (an "embedding") using a model called **SBERT**. These numbers are coordinates in a "meaning map": texts with similar *meaning* land close together, even if they share no words. "Help me write my wedding vows" and "what should I say at the altar to my partner" sit near each other; a jewelry product list sits far away.
 
-**Why:** keywords are blind to context: they can't tell "I'm planning my wedding" from "the characters had a wedding in chapter 3." Embeddings capture meaning, which is what lets us separate genuine intent from coincidental word overlap.
+**Why:** keywords are blind to context: they can't tell "I'm planning my wedding" from "the characters had a wedding in chapter 3." Embeddings capture meaning, which is what lets the analysis separate genuine intent from coincidental word overlap.
 
 **Where this is used:** "Closeness" is measured with **cosine similarity**, an industry-standard way to score how alike two pieces of text are.
 
 ### Step 3: Sorting by "best fit," not "good enough" (contrastive prototypes)
 
-**Method:** we wrote a handful of short example sentences for each *category* a wedding-word conversation might really belong to (`wedding planning`, `fiction/roleplay`, `e-commerce listing`, `travel guide`, `relationship/marriage`, `generic task`) and averaged each category's examples into a "prototype" (a representative point on the meaning map). Every conversation was then assigned to its **nearest** prototype.
+**Method:** a handful of short example sentences was written for each *category* a wedding-word conversation might really belong to (`wedding planning`, `fiction/roleplay`, `e-commerce listing`, `travel guide`, `relationship/marriage`, `generic task`), and each category's examples were averaged into a "prototype" (a representative point on the meaning map). Every conversation was then assigned to its **nearest** prototype.
 
-**Why this beats a simple threshold:** our first attempt asked "is this *close enough* to wedding?", and a product listing that's vaguely wedding-ish would sneak in. The better question is **"of all the things this could be, is *wedding* the best match?"** A honeymoon travel article is somewhat close to "wedding," but it's *much* closer to "travel guide," so it gets routed away. This comparison-against-alternatives is what cleaned up the data, and the category breakdown itself became Finding 1.
+**Why this beats a simple threshold:** the first attempt asked "is this *close enough* to wedding?", and a product listing that's vaguely wedding-ish would sneak in. The better question is **"of all the things this could be, is *wedding* the best match?"** A honeymoon travel article is somewhat close to "wedding," but it's *much* closer to "travel guide," so it gets routed away. This comparison-against-alternatives is what cleaned up the data, and the category breakdown itself became Finding 1.
 
 **Where this is used:** this is a **nearest-centroid / prototype classifier** combined with modern **zero-shot classification**: labeling text into categories *without* hand-labeling thousands of training examples. "Zero-shot" is now standard practice when you need a custom classifier fast and don't have a labeled dataset; prototype-based versions.
 
@@ -168,21 +168,21 @@ This is solved with a **funnel**: start wide and cheap, then narrow with progres
 
 ### Step 4: Discovering themes without pre-deciding them (clustering)
 
-**Method:** to find sub-topics *within* the wedding set, we used **TF-IDF** (a way of scoring which words are distinctive to a conversation, down-weighting filler words everyone uses) and **k-means clustering** to automatically group similar conversations. Out came natural themes: speeches, invitations/messaging, gifts, captions, visual/design prompts.
+**Method:** to find sub-topics *within* the wedding set, **TF-IDF** (a way of scoring which words are distinctive to a conversation, down-weighting filler words everyone uses) and **k-means clustering** were used to automatically group similar conversations. Out came natural themes: speeches, invitations/messaging, gifts, captions, visual/design prompts.
 
-**Why:** we didn't want to impose our assumptions about what people ask. Clustering lets the *data* reveal its own structure, and as a bonus, it surfaced a hidden pocket of roleplay contamination that we then removed.
+**Why:** the aim was to avoid imposing assumptions about what people ask. Clustering lets the *data* reveal its own structure, and as a bonus, it surfaced a hidden pocket of roleplay contamination that was then removed.
 
 **Where this is used:** K-means is the classic for **customer-feedback theme mining, survey analysis, and market segmentation**: the same tool a CX team uses to find recurring complaints in thousands of reviews.
 
-### [Not currently implemented] Step 5: Checking our work by hand (human validation)
+### [Not currently implemented] Step 5: Checking the work by hand (human validation)
 
-**Method:** As a future step, we could manually read samples of what the filter kept and rejected, especially the borderline cases near the cutoff, to estimate accuracy.
+**Method:** As a future step, samples of what the filter kept and rejected could be manually read, especially the borderline cases near the cutoff, to estimate accuracy.
 
 **Why:** automated metrics can lie if the method is subtly broken; a human read help train and improve the accuracy.
 
 ### Measuring engagement: conversation length as a proxy
 
-We used **number of back-and-forth turns** as a stand-in for how much effort and trust a task warrants. It's an imperfect but widely-used **proxy metric** (like "time on page" in web analytics): more turns means the user kept refining, which signals the task mattered and the assistant was worth iterating with.
+**Number of back-and-forth turns** was used as a stand-in for how much effort and trust a task warrants. It's an imperfect but widely-used **proxy metric** (like "time on page" in web analytics): more turns means the user kept refining, which signals the task mattered and the assistant was worth iterating with.
 
 ### Verifiable sample quotes
 
