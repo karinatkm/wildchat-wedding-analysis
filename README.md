@@ -24,7 +24,7 @@ wedding-adjacent brand.
 | 1. Lexical recall (full scan) | `scripts/phase1_collect.py` | `data/wedding_candidates.parquet` |
 | 2a. Embed (cache) | `scripts/phase2_embed.py` | `data/cand_embeddings.npy` |
 | 2b. Contrastive classify | `scripts/phase2_classify.py` | `data/wedding_scored.parquet` |
-| 3. Calibrate/validate | `scripts/phase3_calibrate.py` | `data/validation_sample.csv` |
+| 3. [Requires human labelling, currently not implemented] Calibrate/validate | `scripts/phase3_calibrate.py` | `data/validation_sample.csv` |
 | 4. Analyze | `scripts/phase4_analyze.py` | `figures/*.png`, `data/analysis_results.json`, `data/wedding_final.parquet` |
 | 5. Notebook | `scripts/build_notebook.py` | `notebooks/analysis.ipynb` |
 
