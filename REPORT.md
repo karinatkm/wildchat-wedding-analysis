@@ -82,7 +82,19 @@ Text-generation intents dominate. Operational planning and commerce (recommendat
 
 ### Finding 3: The deepest conversations are about wording and money
 
-Average back-and-forth turns by request type: invitations/messaging **4.9**, planning **4.9**, budget **4.8**, vows/speeches 3.7, etiquette 3.3, attire 3.1. One-shot types: content/blog 1.7, design/image prompts 1.4. Overall mean 3.2 turns (median 1).
+Average back-and-forth turns by request type:
+
+| Request type | Avg. turns |
+|---|---|
+| invitations/messaging | 4.9 |
+| planning | 4.9 |
+| budget | 4.8 |
+| vows/speeches | 3.7 |
+| etiquette | 3.3 |
+| attire | 3.1 |
+| content/blog | 1.7 |
+| design/image prompts | 1.4 |
+| **Overall mean** | **3.2** (median 1) |
 
 > **From the data, conversations people kept refining:**
 > - *17 turns, polishing wording:* "rewrite for a wedding blog from the third pov in one paragraph in normal words: The ceremony was very beautiful…" (each turn tweaks tone/phrasing)
