@@ -5,9 +5,9 @@
 ## Contents
 
 1. [Executive Summary](#1-executive-summary)
-2. [Findings & What They Mean](#2-findings--what-they-mean)
-3. [Implications by Player Type](#3-implications-by-player-type)
-4. [Scaling the Analysis](#4scaling-the-analysis)
+2. [Findings & Implications](#2-findings--implications)
+3. [Recommendations](#3-recommendations)
+4. [Scaling the Analysis](#4-scaling-the-analysis)
 5. [Technical Methodology in Plain Terms](#5-technical-methodology-in-plain-terms)
 
 
@@ -23,7 +23,7 @@ Topline findings:
 - **The #1 job people use AI for is writing, not planning.** The dominant requests are **vows, speeches/toasts, invitations, and thank-you messages**, not budgets, checklists, or logistics. This could be a hint to how brands can shift their online AI-assistant offerings and also AEO-friendly content from "AI wedding planner" to writing guides/assistants.
 - **People iterate most on the words that get read aloud or sent to others.** The longest back-and-forths are about personal wording (messages, invitations) and money (budgets): the high-stakes moments where "good enough" isn't good enough.
 
-> **How confident should you be?** These are **directional** findings from a deliberately high-precision sample (n=157, 2023 data). This is meant to be a discovery set of findings to be scaled. Section 4 lays out how to scale this into statistically robust evidence.
+> NotThese are **directional** findings from a deliberately high-precision sample (n=157, 2023 data). This is meant to be a discovery set of findings to be scaled. Section 4 lays out how to scale this into statistically robust evidence.
 
 ## 2. Findings & Implications
 
@@ -118,7 +118,7 @@ We treat each boundary of this study as a defined next step. The current work an
 
 Each of the above converts a caveat into a concrete, fundable investment that expands what the analysis can prove.
 
-## 5. Techincal Methodology in Plain Terms
+## 5. Technical Methodology in Plain Terms
 
 *How we turned ~529,000 raw conversations into a trustworthy set of findings, why each step is the right tool, and where the same techniques are used in academia and industry. No technical background required.*
 
