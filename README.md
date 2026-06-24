@@ -2,18 +2,19 @@
 
 How do real people use a general-purpose LLM (ChatGPT) when the topic is **weddings**?
 This project mines the [allenai/WildChat](https://huggingface.co/datasets/allenai/WildChat)
-corpus of real human–assistant conversations, builds a validated wedding subset with a
-recall→precision funnel, and analyzes intents, sub-topics, and engagement — framed for a
+corpus of real human-assistant conversations, builds a validated wedding subset with a
+recall-to-precision funnel, and analyzes intents, sub-topics, and engagement, framed for a
 wedding-adjacent brand.
 
 **Read first:** [`REPORT.md`](REPORT.md) (insights) · [`notebooks/analysis.ipynb`](notebooks/analysis.ipynb) (reproducible analysis + charts).
 
+> **Note on notebook rendering:** GitHub's `.ipynb` preview can occasionally show "Unable to render code block" due to browser extensions or transient renderer issues. If the notebook doesn't load, use the [nbviewer mirror](https://nbviewer.org/github/karinatkm/wildchat-wedding-analysis/blob/main/notebooks/analysis.ipynb) for a reliable view.
+
 ## Headline findings
 
-1. **Wedding *words* mostly aren't wedding *usage*** — ~49% of wedding-lexicon hits are fiction/roleplay, plus large shares of e-commerce listings, honeymoon travel, and generic tasks. Keyword-only filtering ≈ 30% precise.
-2. **The job-to-be-done is writing, not planning** — vows/speeches, invitation & thank-you messaging, and captions dominate; budgets/checklists/logistics are the long tail.
-3. **Depth tracks personal stakes** — messaging, planning, and budget conversations run longest (~4.9 turns).
-4. **A commerce gap** — transactional intents (budget, vendor/venue) are low-volume, signaling an unmet need for a trusted wedding-specific assistant.
+1. **Wedding *words* mostly aren't wedding *usage***: ~49% of wedding-lexicon hits are fiction/roleplay, plus large shares of e-commerce listings, honeymoon travel, and generic tasks. Keyword-only filtering is ~30% precise.
+2. **The job-to-be-done is writing, not planning**: vows/speeches, invitation & thank-you messaging, and captions dominate; budgets/checklists/logistics are the long tail. Transactional intents (budget, vendor/venue) are low-volume, signaling an open commerce opportunity for a trusted wedding-specific assistant.
+3. **Depth tracks personal stakes**: messaging, planning, and budget conversations run longest (~4.9 turns).
 
 ## Pipeline
 

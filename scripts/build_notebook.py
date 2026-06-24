@@ -8,11 +8,28 @@ c = []
 md = lambda s: c.append(nbf.v4.new_markdown_cell(s))
 code = lambda s: c.append(nbf.v4.new_code_cell(s))
 
-md("""# WildChat × Weddings — How people use an LLM for weddings
+md("""# How People Use an LLM for Weddings: Insights from WildChat
 
-**Question:** Within a large, real-world corpus of human–ChatGPT conversations
+## Executive Summary
+
+We analyzed the **full WildChat dataset** (~529k real human-ChatGPT conversations, ~284k English) to understand how people actually use an AI assistant for weddings, then distilled a **validated set of 157 genuine wedding conversations** for close study.
+
+**Scope of this analysis.** We focus on *how users use ChatGPT for wedding-related themes*: what they ask for and how they interact. We do **not** analyze how ChatGPT sources or cites content when it responds. That is a distinct question, and a natural second analysis for the future.
+
+A few things stand out:
+
+- **Wedding *words* mostly aren't wedding *usage*.** Only ~6% of conversations containing wedding vocabulary are actually about real weddings. The rest are fan-fiction, online-store product listings, and honeymoon travel. *A brand that monitors "wedding" mentions with keywords alone is reading ~50% fan-fiction.*
+- **The #1 job people hire AI for is writing, not planning.** The dominant requests are **vows, speeches/toasts, invitations, and thank-you messages**, not budgets, checklists, or logistics. Most "AI wedding planner" products lead with the planning features people use *least*. Transactional intents (budget, vendor/venue) are low-volume, signaling an open commerce opportunity for a trusted wedding-specific assistant.
+- **People iterate most on the words that get read aloud or sent to others.** The longest back-and-forths are about personal wording (messages, invitations) and money (budgets): the high-stakes moments where "good enough" isn't good enough.
+
+> **How confident should you be?** These are **directional** findings from a deliberately high-precision sample (n=157, 2023 data). They are strong enough to shape strategy and prioritize bets, but not to size a market. See [`REPORT.md`](../REPORT.md) for the full business implications and a roadmap to scale this into statistically robust evidence.
+""")
+
+md("""# WildChat × Weddings: How people use an LLM for weddings
+
+**Question:** Within a large, real-world corpus of human-ChatGPT conversations
 ([allenai/WildChat](https://huggingface.co/datasets/allenai/WildChat)), what do
-people actually do with the assistant when the topic is *weddings* — and what does
+people actually do with the assistant when the topic is *weddings*, and what does
 that imply for a wedding-adjacent brand?
 
 This notebook is fully reproducible from the cached artifacts in `data/`. The heavy
@@ -20,14 +37,14 @@ extraction (full-dataset stream + embedding) is done by the `scripts/phase*.py`
 pipeline; here we load its outputs and analyze.
 
 **Pipeline (3-stage precision funnel):**
-1. **Stage 0 — Profiling & feasibility:** stream-sample WildChat, confirm schema,
+1. **Stage 0: Profiling & feasibility:** stream-sample WildChat, confirm schema,
    measure wedding prevalence vs. other industries.
-2. **Stage 1 — Lexical recall:** full-dataset scan; keep English conversations whose
+2. **Stage 1: Lexical recall:** full-dataset scan; keep English conversations whose
    *user* text hits a wedding lexicon (strong vs. weak terms).
-3. **Stage 2 — Semantic precision:** embed candidates (SBERT) and classify by
+3. **Stage 2: Semantic precision:** embed candidates (SBERT) and classify by
    **nearest competing prototype** (wedding / fiction-roleplay / e-commerce /
    travel / relationship / generic). Keep only wedding-nearest, strong-term hits.
-4. **Stage 3 — Validation:** manual spot-check + cluster inspection.
+4. **Stage 3: Validation:** manual spot-check + cluster inspection.
 """)
 
 code("""import json, os
@@ -108,8 +125,10 @@ md("""### Key finding #2 — It's a **text-generation** tool, not a planner
 
 The dominant intents are **writing tasks**: vows/speeches/toasts, invitation &
 thank-you messaging, and captions/blog content. Operational planning (budgets,
-checklists, logistics, etiquette) is comparatively rare. People bring the assistant
-in to *write wedding words*, not to *project-manage the wedding*.""")
+checklists, logistics, etiquette) is comparatively rare. Transactional intents
+(budget, vendor/venue recommendations) are low-volume, signaling an open commerce
+opportunity. People bring the assistant in to *write wedding words*, not to
+*project-manage or shop for the wedding*.""")
 
 md("""## 5. Sub-topics (TF-IDF + KMeans)""")
 code("""for cid, terms in res["cluster_terms"].items():
@@ -151,12 +170,11 @@ See `REPORT.md` for the full write-up. Headlines:
    "wedding" signal must filter semantically, not lexically.
 2. **The killer job-to-be-done is writing** — vows, speeches, toasts, invitations,
    thank-yous, captions. A wedding brand's most-used AI feature would be a
-   *guided wedding-writing assistant*, not a generic planner.
+   *guided wedding-writing assistant*, not a generic planner. Transactional intents
+   (budget, vendor/venue) are low-volume, signaling an open commerce opportunity for a
+   trusted wedding-specific assistant.
 3. **Depth = trust + stakes** — messaging/budget/planning drive multi-turn iteration;
    that's where an assistant can add real value and where users will tolerate friction.
-4. **Underserved, commerce-adjacent moments** — budget/cost and vendor/venue
-   recommendations are low-volume here (2023, generic ChatGPT), signaling a *product
-   gap*: people don't yet trust a general LLM for transactional wedding decisions.
 """)
 
 nb["cells"] = c
