@@ -8,8 +8,8 @@
 2. [Findings & What They Mean](#2-findings--what-they-mean)
 3. [Implications by Player Type](#3-implications-by-player-type)
 4. [Scaling the Analysis](#4scaling-the-analysis)
-5. [Methodology in Plain Terms](#5-methodology-in-plain-terms)
-6. [Technical Appendix](#6-technical-appendix)
+5. [Technical Methodology in Plain Terms](#5-technical-methodology-in-plain-terms)
+
 
 ## 1. Executive Summary
 
@@ -118,7 +118,7 @@ We treat each boundary of this study as a defined next step. The current work an
 
 Each of the above converts a caveat into a concrete, fundable investment that expands what the analysis can prove.
 
-## 5. Methodology in Plain Terms
+## 5. Techincal Methodology in Plain Terms
 
 *How we turned ~529,000 raw conversations into a trustworthy set of findings, why each step is the right tool, and where the same techniques are used in academia and industry. No technical background required.*
 
@@ -162,32 +162,15 @@ This is solved with a **funnel**: start wide and cheap, then narrow with progres
 
 **Where this is used:** K-means is the classic for **customer-feedback theme mining, survey analysis, and market segmentation**: the same tool a CX team uses to find recurring complaints in thousands of reviews.
 
-### Step 5: Checking our work by hand (human validation)
+### [Not currently implemented] Step 5: Checking our work by hand (human validation)
 
-**Method:** we manually read samples of what the filter kept and rejected, especially the borderline cases near the cutoff, to estimate accuracy, landing at **~70-75% precision**. We also re-read clusters to catch and remove leftover contamination.
+**Method:** As a future step, we could manually read samples of what the filter kept and rejected, especially the borderline cases near the cutoff, to estimate accuracy.
 
-**Why:** automated metrics can lie if the method is subtly broken; a human read is the gold standard for "is this actually right?" Sampling near the decision boundary is the most efficient place to look, because that's where the model is least sure.
-
-**Where this is used:** **human-in-the-loop evaluation** is standard for any production classifier or AI system; reporting **precision** (and inspecting a *confusion matrix* of right/wrong calls) is the accepted way to communicate how much to trust an automated label.
+**Why:** automated metrics can lie if the method is subtly broken; a human read help train and improve the accuracy.
 
 ### Measuring engagement: conversation length as a proxy
 
 We used **number of back-and-forth turns** as a stand-in for how much effort and trust a task warrants. It's an imperfect but widely-used **proxy metric** (like "time on page" in web analytics): more turns means the user kept refining, which signals the task mattered and the assistant was worth iterating with.
-
-
-
-## 6. Technical Appendix
-
-### Pipeline at a glance
-
-A 3-stage **precision funnel**: cheap recall first, expensive precision second.
-
-1. **Stage 0: Profiling & feasibility** (`scripts/phase0_explore.py`, `phase0_multitopic.py`): confirmed schema, profiled English share/model split/turns, and compared wedding prevalence against 12 other industries to make an informed domain choice.
-2. **Stage 1: Lexical recall** (`scripts/phase1_collect.py`): streamed the full dataset; kept English conversations whose **user** text hit a wedding lexicon (strong terms like *wedding, bride, vows, officiant* vs. weak terms like *marriage, ceremony, engagement*). Yield: **6,458 loose / 1,845 strict** candidates.
-3. **Stage 2: Semantic precision** (`scripts/phase2_embed.py` + `phase2_classify.py`): embedded candidates with **SBERT (all-MiniLM-L6-v2)** and classified each by its **nearest competing prototype** (`wedding_planning`, `fiction_roleplay`, `ecommerce_listing`, `travel_guide`, `relationship_general`, `generic_task`). Kept only wedding-nearest conversations with a strong lexical term and cosine >= 0.30.
-4. **Stage 3: Validation** (`scripts/phase3_calibrate.py` + manual review): spot-checked samples across the decision boundary and inspected clusters to remove residual roleplay leakage (Doki Doki Literature Club, Minecraft). Estimated precision **~70-75%**.
-
-**Why contrastive prototypes over keyword/NLI?** Pure keywords are high-recall/low-precision. A single weak zero-shot NLI head scored obvious false positives high (a restaurant business plan, a job email). Routing each candidate to its *nearest* category among competing prototypes cleanly diverted product listings, fiction, and travel away from the wedding bucket.
 
 ### Verifiable sample quotes
 
